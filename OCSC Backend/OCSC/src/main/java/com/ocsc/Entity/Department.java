@@ -24,7 +24,7 @@ public class Department {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
-	private Integer departmentld;
+	private Integer departmentId;
 	
 	@NotNull(message = "Department Name field should not be empty")
 	@Column(name =  "departmentName")
