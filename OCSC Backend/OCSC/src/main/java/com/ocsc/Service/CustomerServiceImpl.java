@@ -34,16 +34,17 @@ public class CustomerServiceImpl implements CustomerService {
 	
 
 	@Override
-	public String registerCustomer(Customer customer) throws CustomerException {
+	public Customer registerCustomer(Customer customer) throws CustomerException {
 		
-		Optional<Customer> existingCustomer = customerRepository.findById(customer.getCustomerId());
-		
-		if(existingCustomer.isPresent()) 
-			throw new CustomerException("Customer Already Registered with customerId");
+//		Optional<Customer> existingCustomer = customerRepository.findById(customer.getCustomerId());
+//		
+//		if(existingCustomer.isPresent()) 
+//			throw new CustomerException("Customer Already Registered with customerId");
 		
 		customerRepository.save(customer);
 		
-		return "Customer added successfully";
+		return customer;
+//		return "Customer added successfully";
 	}
 	
 

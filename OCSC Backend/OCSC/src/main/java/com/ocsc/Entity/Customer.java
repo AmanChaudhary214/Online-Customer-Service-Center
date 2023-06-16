@@ -24,29 +24,33 @@ import lombok.NoArgsConstructor;
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
 	
-	@NotNull(message = "First Name field should not be empty")
-	@Column(name =  "fName")
+//	@NotNull(message = "First Name field should not be empty")
+//	@Column(name =  "fName")
 	private String fName;
 	
-	@NotNull(message = "Last Name field should not be empty")
-	@Column(name =  "lName")
+//	@NotNull(message = "Last Name field should not be empty")
+//	@Column(name =  "lName")
 	private String lName;
 	
-	@NotNull(message="Email is mandatory")
-	@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",message = "Input a valid email address")
+//	@NotNull(message="Email is mandatory")
+//	@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",message = "Input a valid email address")
 	private String email;
 	
-	@NotNull(message = "Mobile number field should not be empty")
-	@Pattern(regexp = "[6789]{1}[0-9]{9}",message = "Input a valid mobile number")
-	@Column(name = "mobile")
+	private String password;
+	
+//	@NotNull(message = "Mobile number field should not be empty")
+//	@Pattern(regexp = "[6789]{1}[0-9]{9}",message = "Input a valid mobile number")
+//	@Column(name = "mobile")
 	private String mobile;
 	
-	@NotNull(message = "City field should not be empty")
-	@Column(name =  "city")
+//	@NotNull(message = "City field should not be empty")
+//	@Column(name =  "city")
 	private String city;
+	
+	private String role;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "customer")
 	private List<Issue> issueList = new ArrayList<>();
