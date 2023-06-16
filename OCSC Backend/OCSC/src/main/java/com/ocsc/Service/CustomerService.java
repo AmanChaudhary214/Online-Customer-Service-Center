@@ -10,7 +10,7 @@ import com.ocsc.Exception.CustomerException;
 
 public interface CustomerService {
 
-	public String registerCustomer(Customer customer) throws CustomerException;
+	public Customer registerCustomer(Customer customer) throws CustomerException;
 	
 	public String loginCustomer(Login login) throws CustomerException;
 
