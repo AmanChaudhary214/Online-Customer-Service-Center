@@ -10,6 +10,7 @@ import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.IssueStatus;
 import com.ocsc.Entity.Login;
+import com.ocsc.Exception.AdminException;
 import com.ocsc.Exception.CustomerException;
 import com.ocsc.Repository.CustomerRepository;
 import com.ocsc.Repository.IssueRepository;
@@ -26,31 +27,30 @@ public class CustomerServiceImpl implements CustomerService {
 
 	
 	@Override
-	public String loginCustomer(Login login) throws CustomerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-
-	@Override
 	public Customer registerCustomer(Customer customer) throws CustomerException {
 		
-//		Optional<Customer> existingCustomer = customerRepository.findById(customer.getCustomerId());
-//		
-//		if(existingCustomer.isPresent()) 
-//			throw new CustomerException("Customer Already Registered with customerId");
+		if (customer == null) {
+			throw new CustomerException("Customer can't be null");
+		}
+		
+		Optional<Customer> existingCustomer = customerRepository.findById(customer.getCustomerId());
+		
+		if(existingCustomer.isPresent()) 
+			throw new CustomerException("Customer Already Registered with customerId");
 		
 		customerRepository.save(customer);
 		
 		return customer;
-//		return "Customer added successfully";
 	}
 	
 
 	
 	@Override
 	public Issue viewIssuesById(Integer issueId) throws CustomerException {
+		
+		if (issueId == null) {
+			throw new CustomerException("IssueId can't be null");
+		}
 
 		Optional<Issue> issue = issueRepository.findById(issueId);
 		
@@ -64,6 +64,10 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public Issue reOpenIssue(Integer issueId, IssueStatus newStatus) throws CustomerException {
+		
+		if (issueId == null) {
+			throw new CustomerException("IssueId can't be null");
+		}
 
 		Optional<Issue> issue = issueRepository.findById(issueId);
 		
@@ -81,6 +85,10 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public List<Issue> viewAllIssues(Integer customerId) throws CustomerException {
+		
+		if (customerId == null) {
+			throw new CustomerException("CustomerId can't be null");
+		}
 
 		Optional<Customer> customer = customerRepository.findById(customerId);
 		
@@ -95,6 +103,14 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	
+	
+	@Override
+	public String loginCustomer(Login login) throws CustomerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+		
+	
 
 	@Override
 	public String changePassword(Login login) throws CustomerException {
@@ -102,6 +118,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return null;
 	}
 
+	
 	
 	@Override
 	public String forgotPassword(Integer customerId) throws CustomerException {

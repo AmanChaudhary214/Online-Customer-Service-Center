@@ -11,6 +11,7 @@ import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.IssueStatus;
 import com.ocsc.Entity.Login;
+import com.ocsc.Exception.CustomerException;
 import com.ocsc.Exception.OperatorException;
 import com.ocsc.Repository.CustomerRepository;
 import com.ocsc.Repository.IssueRepository;
@@ -37,6 +38,10 @@ public class OperatorServiceImpl implements OperatorService{
 
 	@Override
 	public Issue addCustomerIssue(Issue issue) throws OperatorException {
+		
+		if (issue == null) {
+			throw new OperatorException("Issue can't be null");
+		}
 
 		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueld());
 		
@@ -53,6 +58,10 @@ public class OperatorServiceImpl implements OperatorService{
 	@Override
 	public Issue modifyCustomerIssue(Issue issue) throws OperatorException {
 
+		if (issue == null) {
+			throw new OperatorException("Issue can't be null");
+		}
+		
 		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueld());
 		
 		if(existingIssue.isEmpty()) 
@@ -63,28 +72,16 @@ public class OperatorServiceImpl implements OperatorService{
 		existingIssue.get().setStatus(issue.getStatus());
 		
 		return existingIssue.get();
-	}
-	
+	}	
 	
 
-	@Override
-	public String sendIntimidationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	
-	@Override
-	public String sendModificationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 
 	@Override
 	public String closeCustomerIssue(Issue issue) throws OperatorException {
+		
+		if (issue == null) {
+			throw new OperatorException("Issue can't be null");
+		}
 
 		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueld());
 		
@@ -102,6 +99,10 @@ public class OperatorServiceImpl implements OperatorService{
 
 	@Override
 	public Customer findCustomerById(Integer customerId) throws OperatorException {
+		
+		if (customerId == null) {
+			throw new OperatorException("CustomerId can't be null");
+		}
 
 		Optional<Customer> existingCustomer = customerRepository.findById(customerId);
 		
@@ -115,6 +116,10 @@ public class OperatorServiceImpl implements OperatorService{
 
 	@Override
 	public List<Customer> findCustomerByName(String fName) throws OperatorException {
+		
+		if (fName == null) {
+			throw new OperatorException("fName can't be null");
+		}
 
 		List<Customer> customers = customerRepository.findAll();
 	
@@ -136,6 +141,10 @@ public class OperatorServiceImpl implements OperatorService{
 
 	@Override
 	public Customer findCustomerByEmail(String email) throws OperatorException {
+		
+		if (email == null) {
+			throw new OperatorException("Email can't be null");
+		}
 
 		Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
 		
@@ -146,6 +155,22 @@ public class OperatorServiceImpl implements OperatorService{
 	}
 	
 	
+	
+	@Override
+	public String sendIntimidationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
+	@Override
+	public String sendModificationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
 	@Override
 	public boolean lockCustomer(Integer customerId) throws OperatorException {
@@ -153,4 +178,5 @@ public class OperatorServiceImpl implements OperatorService{
 		return false;
 	}
 
+	
 }

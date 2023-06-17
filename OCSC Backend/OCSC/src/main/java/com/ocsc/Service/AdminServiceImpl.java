@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ocsc.Entity.Department;
 import com.ocsc.Entity.Operator;
 import com.ocsc.Exception.AdminException;
+import com.ocsc.Exception.OperatorException;
 import com.ocsc.Repository.DepartmentRepository;
 import com.ocsc.Repository.OperatorRepository;
 
@@ -26,6 +27,10 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public String addDepartment(Department department) throws AdminException {
+		
+		if (department == null) {
+			throw new AdminException("Department can't be null");
+		}
 
 		Optional<Department> existingDepartment = departmentRepository.findById(department.getDepartmentId());
 		
@@ -42,6 +47,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public String removeDepartment(Integer departmentId) throws AdminException {
+		
+		if (departmentId == null) {
+			throw new AdminException("DepartmentId can't be null");
+		}
 
 		Optional<Department> existingDepartment = departmentRepository.findById(departmentId);
 		
@@ -57,6 +66,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Department modifyDepartment(Department department) throws AdminException {
+		
+		if (department == null) {
+			throw new AdminException("Department can't be null");
+		}
 
 		Optional<Department> existingDepartment = departmentRepository.findById(department.getDepartmentId());
 		
@@ -72,6 +85,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Department findDepartmentById(Integer departmentId) throws AdminException {
+		
+		if (departmentId == null) {
+			throw new AdminException("DepartmentId can't be null");
+		}
 
 		Optional<Department> existingDepartment = departmentRepository.findById(departmentId);
 		
@@ -85,6 +102,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public String addOperator(Operator operator) throws AdminException {
+		
+		if (operator == null) {
+			throw new AdminException("Operator can't be null");
+		}
 
 		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorld());
 		
@@ -101,6 +122,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public String removeOperator(Integer operatorId) throws AdminException {
 		
+		if (operatorId == null) {
+			throw new AdminException("OperatorId can't be null");
+		}
+		
 		Optional<Operator> existingOperator = operatorRepository.findById(operatorId);
 		
 		if(existingOperator == null) 
@@ -115,6 +140,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Operator modifyOperator(Operator operator) throws AdminException {
+		
+		if (operator == null) {
+			throw new AdminException("Operator can't be null");
+		}
 
 		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorld());
 		
@@ -135,6 +164,10 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public Operator findOperatorById(Integer operatorId) throws AdminException {
+		
+		if (operatorId == null) {
+			throw new AdminException("OperatorId can't be null");
+		}
 		
 		Optional<Operator> existingOperator = operatorRepository.findById(operatorId);
 		
