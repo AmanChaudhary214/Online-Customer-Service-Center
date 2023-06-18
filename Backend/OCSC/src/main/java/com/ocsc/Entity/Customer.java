@@ -27,13 +27,9 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
 	
-	@NotNull(message = "First Name field should not be empty")
+	@NotNull(message = "Name field should not be empty")
 	@Column(name =  "fName")
-	private String fName;
-	
-	@NotNull(message = "Last Name field should not be empty")
-	@Column(name =  "lName")
-	private String lName;
+	private String name;
 	
 	@NotNull(message="Email is mandatory")
 	@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",message = "Input a valid email address")

@@ -45,8 +45,7 @@ public class AppConfig {
 				cfg.setExposedHeaders(Arrays.asList("Authorization"));
 				return cfg;				
 					
-					
-					
+				
 				}
 			});
 			

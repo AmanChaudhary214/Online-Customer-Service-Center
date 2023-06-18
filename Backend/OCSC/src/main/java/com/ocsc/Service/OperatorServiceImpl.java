@@ -115,21 +115,21 @@ public class OperatorServiceImpl implements OperatorService{
 	
 
 	@Override
-	public List<Customer> findCustomerByName(String fName) throws OperatorException {
+	public List<Customer> findCustomerByName(String name) throws OperatorException {
 		
-		if (fName == null) {
-			throw new OperatorException("fName can't be null");
+		if (name == null) {
+			throw new OperatorException("Name can't be null");
 		}
 
 		List<Customer> customers = customerRepository.findAll();
-	
+
 		if(customers.isEmpty()) 
 			throw new OperatorException("No customer exists with given customerId");
 		
 		List<Customer> list = new ArrayList<>();
 		
 		for (int i=0; i<customers.size(); i++) {
-			if (customers.get(i).getFName() == fName) {
+			if (customers.get(i).getName() == name) {
 				list.add(customers.get(i));
 			}
 		}

@@ -30,18 +30,16 @@ public class Operator {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Integer operatorld;
-	
-	@NotNull(message = "First Name field should not be empty")
+
+	@NotNull(message = "Name field should not be empty")
 	@Column(name =  "fName")
-	private String firstName;
-	
-	@NotNull(message = "Last Name field should not be empty")
-	@Column(name =  "lName")
-	private String lastName;
+	private String name;
 	
 	@NotNull(message="Email is mandatory")
 	@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",message = "Input a valid email address")
 	private String email;
+	
+	private String password;
 	
 	@NotNull(message = "Mobile number field should not be empty")
 	@Pattern(regexp = "[6789]{1}[0-9]{9}",message = "Input a valid mobile number")

@@ -150,9 +150,9 @@ public class AdminServiceImpl implements AdminService {
 		if(existingOperator == null) 
 			throw new AdminException("Operator doesn't exist with with given operatorId");
 		
-		existingOperator.get().setFirstName(operator.getFirstName());
-		existingOperator.get().setLastName(operator.getLastName());
+		existingOperator.get().setName(operator.getName());
 		existingOperator.get().setEmail(operator.getEmail());
+		existingOperator.get().setPassword(operator.getPassword());
 		existingOperator.get().setMobile(operator.getMobile());
 		existingOperator.get().setCity(operator.getCity());
 		
