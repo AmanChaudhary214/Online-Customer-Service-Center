@@ -55,6 +55,7 @@ img {
     overflow: hidden;
 }
 
+/*=== Shapes ===*/
 .shape1,
 .shape2 {
     position: absolute;
@@ -76,6 +77,7 @@ img {
     transform: rotate(180deg);
 }
 
+/*=== Form ===*/
 .form {
     height: 100vh;
     display: grid;
@@ -102,9 +104,14 @@ img {
     position: relative;
     display: grid;
     grid-template-columns: 7% 93%;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     padding: 0.25rem 0;
     border-bottom: 1px solid var(--text-color);
+}
+
+/*=== Div focus ===*/
+.form_div.focus {
+    border-bottom: 1px solid var(--first-color);
 }
 
 .form_div-one {
@@ -114,15 +121,29 @@ img {
 .form_icon {
     font-size: 1.5rem;
     color: var(--text-color);
+    transition: .3s;
+}
+
+/*=== Icon focus ===*/
+.form_div.focus .form_icon {
+    color: var(--first-color);
 }
 
 .form_label {
     display: block;
     position: absolute;
-    left: 0.75rem;
-    top: 0.25rem;
+    left: .75rem;
+    top: .25rem;
     font-size: var(--normal-font-size);
     color: var(--text-color);
+    transition: .3s;
+}
+
+/*=== Label focus ===*/
+.form_div.focus .form_label {
+    top: -1.5rem;
+    font-size: .875rem;
+    color: var(--first-color);
 }
 
 .form_div-input {
@@ -154,6 +175,21 @@ img {
 }
 
 .form_forgot:hover {
+    color: var(--first-color);
+    transition: 0.5s;
+}
+
+.form_register {
+    display: block;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: var(--normal-font-size);
+    color: var(--text-color);
+    font-weight: 500;
+    transition: 0.5s;
+}
+
+.form_register:hover {
     color: var(--first-color);
     transition: 0.5s;
 }
@@ -192,7 +228,8 @@ img {
     align-items: center;
     width: 30px;
     height: 30px;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
     padding: 1rem;
     background-color: var(--text-color);
     color: #fff;
@@ -202,4 +239,35 @@ img {
 
 .form_social-icon:hover {
     background-color: var(--first-color);
+}
+
+/*===== MEDIA QUERIS =====*/
+@media screen and (min-width: 968px) {
+    .shape1 {
+        width: 400px;
+        height: 400px;
+        top: -11rem;
+        left: -6.5rem;
+    }
+
+    .shape2 {
+        width: 300px;
+        height: 300px;
+        right: -6.5rem;
+    }
+
+    .form {
+        grid-template-columns: 1.5fr 1fr;
+        padding: 0 2rem;
+    }
+
+    .form_content {
+        width: 320px;
+    }
+
+    .form_img {
+        display: block;
+        width: 700px;
+        justify-self: center;
+    }
 }

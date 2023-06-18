@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register Operator</title>
 
     <link rel="stylesheet" href="styles.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
-
+    
     <div class="l-form">
         <div class="shape1"></div>
         <div class="shape2"></div>
@@ -28,14 +27,24 @@
                         <i class='bx bx-user-circle'></i>
                     </div>
                     <div class="form_div-input">
-                        <label for="" class="form_label">Username</label>
+                        <label for="" class="form_label">Name</label>
                         <input type="text" class="form_input">
                     </div>
                 </div>
 
                 <div class="form_div">
                     <div class="form_icon">
-                        <i class='bx bx-lock-open'></i>
+                        <i class='bx bx-envelope'></i>
+                    </div>
+                    <div class="form_div-input">
+                        <label for="" class="form_label">Email</label>
+                        <input type="password" class="form_input">
+                    </div>
+                </div>
+
+                <div class="form_div">
+                    <div class="form_icon">
+                        <i class='bx bx-lock-open' ></i>
                     </div>
                     <div class="form_div-input">
                         <label for="" class="form_label">Password</label>
@@ -43,22 +52,39 @@
                     </div>
                 </div>
 
-                <a href="#" class="form_forgot">Forgot Password?</a>
+                <div class="form_div">
+                    <div class="form_icon">
+                        <i class='bx bx-mobile' ></i>
+                    </div>
+                    <div class="form_div-input">
+                        <label for="" class="form_label">Mobile</label>
+                        <input type="password" class="form_input">
+                    </div>
+                </div>
 
-                <input type="submit" class="form_button" value="Login">
+                <div class="form_div">
+                    <div class="form_icon">
+                        <i class='bx bxs-city' ></i>
+                    </div>
+                    <div class="form_div-input">
+                        <label for="" class="form_label">City</label>
+                        <input type="password" class="form_input">
+                    </div>
+                </div>
+
+                <input type="submit" class="form_button" value="Register">
 
                 <div class="form_social"><span class="form_social-text">or Login with</span>
                     <a href="#" class="form_social-icon"><i class='bx bxl-google'></i></a>
-                    <a href="#" class="form_social-icon"><i class='bx bxl-facebook'></i></a>
-                    <a href="#" class="form_social-icon"><i class='bx bxl-twitter'></i></a>
+                    <a href="#" class="form_social-icon"><i class='bx bxl-facebook' ></i></a>
+                    <a href="#" class="form_social-icon"><i class='bx bxl-twitter' ></i></a>
                 </div>
             </form>
-
+            
         </div>
     </div>
 
     <script src="/index.js"></script>
 
 </body>
-
 </html>
