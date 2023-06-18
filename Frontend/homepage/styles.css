@@ -1,0 +1,170 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('#');
+  background-size: cover;
+  color: #8590ad;
+}
+
+header,
+nav,
+main,
+footer {
+  padding: 20px;
+}
+
+nav {
+  background-color: #8590ad;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+}
+
+.logo {
+  flex: 1;
+}
+
+.nav-button {
+  background-color: #12192c;
+  border: none;
+  color: #b2bcd5;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #6c759f;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #12192c;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #8590ad;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #6c759f;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.logo {
+  height: 100px;
+}
+
+header {
+  color: #12192c;
+  text-align: center;
+}
+
+footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #8590ad;
+  color: #12192c;
+  text-align: center;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 90%;
+  margin: auto;
+}
+
+.main-content img {
+  max-width: 100%;
+  height: auto;
+  align-self: flex-start;
+}
+
+.main-content div > :has(img) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-content,
+.right-content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.right-top {
+  display: flex;
+  flex: 1;
+}
+
+.right-top ~ div {
+  width: 100%;
+  flex: 1;
+}
+
+.main-content img {
+  width: 50%;
+}
+
+.left-content img {
+  width: 80%;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
+.right-content {
+  flex-direction: column;
+  align-items: start;
+  margin-top: -30px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+  .sticky {
+    position: static;
+  }
+  .right-content {
+    flex-direction: column;
+  }
+}
