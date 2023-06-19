@@ -17,11 +17,11 @@ public interface OperatorService {
 	
 	public String sendIntimidationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException;
 
-	public Issue modifyCustomerIssue(Issue issue) throws OperatorException;
+	public Issue modifyCustomerIssue(Issue issue, Integer issueId) throws OperatorException;
 	
 	public String sendModificationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException;
 	
-	public String closeCustomerIssue(Issue issue) throws OperatorException;
+	public String closeCustomerIssue(Issue issue, Integer issueId) throws OperatorException;
 	
 	public Customer findCustomerById(Integer customerId) throws OperatorException;
 	

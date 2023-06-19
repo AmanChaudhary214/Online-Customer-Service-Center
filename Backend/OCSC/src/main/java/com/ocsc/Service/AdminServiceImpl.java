@@ -80,13 +80,13 @@ public class AdminServiceImpl implements AdminService {
 	
 
 	@Override
-	public Department modifyDepartment(Department department) throws AdminException {
+	public Department modifyDepartment(Department department, Integer departmentId) throws AdminException {
 		
 		if (department == null) {
 			throw new AdminException("Department can't be null");
 		}
 
-		Optional<Department> existingDepartment = departmentRepository.findById(department.getDepartmentId());
+		Optional<Department> existingDepartment = departmentRepository.findById(departmentId);
 		
 		if(existingDepartment == null) 
 			throw new AdminException("Department doesn't exist with given departmentId");
@@ -154,13 +154,13 @@ public class AdminServiceImpl implements AdminService {
 	
 
 	@Override
-	public Operator modifyOperator(Operator operator) throws AdminException {
+	public Operator modifyOperator(Operator operator, Integer operatorId) throws AdminException {
 		
 		if (operator == null) {
 			throw new AdminException("Operator can't be null");
 		}
 
-		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorId());
+		Optional<Operator> existingOperator = operatorRepository.findById(operatorId);
 		
 		if(existingOperator == null) 
 			throw new AdminException("Operator doesn't exist with with given operatorId");

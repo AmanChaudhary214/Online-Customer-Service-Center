@@ -27,7 +27,7 @@ public class Solution {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer solutionld;
+	private Integer solutionId;
 	
 	@NotBlank(message = "{blank.invalid}")
 	@NotEmpty(message = "{empty.invalid}")

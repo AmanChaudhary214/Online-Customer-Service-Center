@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,20 +52,20 @@ public class OperatorController {
 	
 	
 	
-	@PostMapping("/modifyIssue")
-	public ResponseEntity<Issue> modifyIssueHandler(@RequestBody @Valid Issue issue)throws OperatorException {
+	@PutMapping("/modifyIssue/{issueId}")
+	public ResponseEntity<Issue> modifyIssueHandler(@RequestBody @Valid Issue issue, @PathVariable Integer issueId)throws OperatorException {
 		
-		Issue i = operatorService.modifyCustomerIssue(issue);
+		Issue i = operatorService.modifyCustomerIssue(issue, issueId);
 		
 		return new ResponseEntity<Issue>(i,HttpStatus.OK);
 	}
 	
 	
 	
-	@PostMapping("/closeIssue")
-	public ResponseEntity<String> closeIssueHandler(@RequestBody @Valid Issue issue) throws OperatorException{
+	@PutMapping("/closeIssue/{issueId}")
+	public ResponseEntity<String> closeIssueHandler(@RequestBody @Valid Issue issue, @PathVariable Integer issueId) throws OperatorException{
 		
-		String s = operatorService.closeCustomerIssue(issue);
+		String s = operatorService.closeCustomerIssue(issue, issueId);
 		
 		return new ResponseEntity<String>(s,HttpStatus.OK);
 	}
@@ -82,7 +83,7 @@ public class OperatorController {
 	
 	
 	@GetMapping("/customer/{name}")
-	public ResponseEntity<List<Customer>> getByFirstNameHandler(@PathVariable @Valid String name) throws OperatorException{
+	public ResponseEntity<List<Customer>> getCustomerByFirstNameHandler(@PathVariable @Valid String name) throws OperatorException{
 		
 		List<Customer> cList =  operatorService.findCustomerByName(name);
 		
@@ -92,7 +93,7 @@ public class OperatorController {
 	
 	
 	@GetMapping("/customer/{email}")
-	public ResponseEntity<Customer> getByEmailHandler(@PathVariable @Valid String email)throws OperatorException {
+	public ResponseEntity<Customer> getCustomerByEmailHandler(@PathVariable @Valid String email)throws OperatorException {
 		
 		Customer c =  operatorService.findCustomerByEmail(email);
 		

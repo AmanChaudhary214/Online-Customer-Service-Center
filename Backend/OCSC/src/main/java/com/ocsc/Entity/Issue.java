@@ -28,7 +28,7 @@ public class Issue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
-	private Integer issueld;
+	private Integer issueId;
 	
 	@NotNull(message = "IssueTpe Name field should not be empty")
 	@Column(name =  "issueType")

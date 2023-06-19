@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,6 @@ import com.ocsc.Entity.Operator;
 import com.ocsc.Exception.AdminException;
 import com.ocsc.Exception.LoginException;
 import com.ocsc.Service.AdminService;
-import com.ocsc.Service.OperatorService;
 
 import jakarta.validation.Valid;
 
@@ -61,10 +61,10 @@ public class AdminController {
 	
 	
 	
-	@PostMapping("/modifyDepartment")
-	public ResponseEntity<Department> modifyDepartmentHandler(@RequestBody @Valid Department department)throws AdminException {
+	@PutMapping("/modifyDepartment/{departmentId}")
+	public ResponseEntity<Department> modifyDepartmentHandler(@RequestBody @Valid Department department, @PathVariable Integer departmentId)throws AdminException {
 		
-		Department dept = adminService.modifyDepartment(department);
+		Department dept = adminService.modifyDepartment(department, departmentId);
 		
 		return new ResponseEntity<Department>(dept,HttpStatus.CREATED);
 	}
@@ -101,10 +101,10 @@ public class AdminController {
 	
 	
 	
-	@PostMapping("/modifyOperator")
-	public ResponseEntity<Operator> modifyOperatorHandler(@RequestBody @Valid Operator operator)throws AdminException {
+	@PutMapping("/modifyOperator/{operatorId}")
+	public ResponseEntity<Operator> modifyOperatorHandler(@RequestBody @Valid Operator operator, @PathVariable Integer operatorId)throws AdminException {
 		
-		Operator opt = adminService.modifyOperator(operator);
+		Operator opt = adminService.modifyOperator(operator, operatorId);
 		
 		return new ResponseEntity<Operator>(opt,HttpStatus.OK);
 	}

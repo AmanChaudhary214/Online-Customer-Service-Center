@@ -79,7 +79,7 @@ public class OperatorServiceImpl implements OperatorService{
 			throw new OperatorException("Issue can't be null");
 		}
 
-		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueld());
+		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueId());
 		
 		if(existingIssue.isPresent()) 
 			throw new OperatorException("Issue already exists with given issueId");
@@ -92,13 +92,13 @@ public class OperatorServiceImpl implements OperatorService{
 	
 
 	@Override
-	public Issue modifyCustomerIssue(Issue issue) throws OperatorException {
+	public Issue modifyCustomerIssue(Issue issue, Integer issueId) throws OperatorException {
 
 		if (issue == null) {
 			throw new OperatorException("Issue can't be null");
 		}
 		
-		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueld());
+		Optional<Issue> existingIssue = issueRepository.findById(issueId);
 		
 		if(existingIssue.isEmpty()) 
 			throw new OperatorException("Issue doesn't exist with given issueId");
@@ -113,13 +113,13 @@ public class OperatorServiceImpl implements OperatorService{
 
 
 	@Override
-	public String closeCustomerIssue(Issue issue) throws OperatorException {
+	public String closeCustomerIssue(Issue issue, Integer issueId) throws OperatorException {
 		
 		if (issue == null) {
 			throw new OperatorException("Issue can't be null");
 		}
 
-		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueld());
+		Optional<Issue> existingIssue = issueRepository.findById(issueId);
 		
 		if(existingIssue.isEmpty())
 			throw new OperatorException("Issue doesn't exist with given issueId");

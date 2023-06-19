@@ -17,7 +17,7 @@ public interface AdminService {
 	
 	public String removeDepartment(Integer departmentId) throws AdminException;
 	
-	public Department modifyDepartment(Department department) throws AdminException;
+	public Department modifyDepartment(Department department, Integer departmentId) throws AdminException;
 	
 	public Department findDepartmentById(Integer departmentId) throws AdminException;
 	
@@ -25,7 +25,7 @@ public interface AdminService {
 	
 	public String removeOperator(Integer operatorId) throws AdminException;
 	
-	public Operator modifyOperator(Operator operator) throws AdminException;
+	public Operator modifyOperator(Operator operator, Integer operatorId) throws AdminException;
 	
 	public Operator findOperatorById(Integer operatorId) throws AdminException;
 	
