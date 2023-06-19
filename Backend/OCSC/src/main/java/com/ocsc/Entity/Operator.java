@@ -29,7 +29,7 @@ public class Operator {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
-	private Integer operatorld;
+	private Integer operatorId;
 
 	@NotNull(message = "Name field should not be empty")
 	@Column(name =  "fName")

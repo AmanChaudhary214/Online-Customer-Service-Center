@@ -1,5 +1,6 @@
 package com.ocsc.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,14 +8,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ocsc.Entity.CurrentAdminSession;
+import com.ocsc.Entity.CurrentOperatorSession;
 import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.IssueStatus;
 import com.ocsc.Entity.Login;
-import com.ocsc.Exception.CustomerException;
+import com.ocsc.Entity.Operator;
+import com.ocsc.Exception.LoginException;
 import com.ocsc.Exception.OperatorException;
+import com.ocsc.Repository.CurrentOperatorSessionRepository;
 import com.ocsc.Repository.CustomerRepository;
 import com.ocsc.Repository.IssueRepository;
+import com.ocsc.Repository.OperatorRepository;
+
+import net.bytebuddy.utility.RandomString;
 
 @Service
 public class OperatorServiceImpl implements OperatorService{
@@ -26,12 +34,41 @@ public class OperatorServiceImpl implements OperatorService{
 	@Autowired
 	private CustomerRepository customerRepository;
 	
+	@Autowired
+	private OperatorRepository operatorRepository;
+	
+	@Autowired
+	private CurrentOperatorSessionRepository currentOperatorSessionRepository;
+	
 	
 
 	@Override
-	public String loginOperator(Login login) throws OperatorException {
-		// TODO Auto-generated method stub
-		return null;
+	public CurrentOperatorSession loginOperator(Login login) throws OperatorException, LoginException{
+
+		Operator existingOperator = operatorRepository.findByUserName(login.getUsername());
+		
+		if(existingOperator == null) {
+			throw new LoginException("Please Enter a valid username number");
+		}	
+		
+		Optional<CurrentOperatorSession> validOperatorSessionOpt = currentOperatorSessionRepository.findById(existingOperator.getOperatorId());
+		
+		if(validOperatorSessionOpt.isPresent()) {
+			throw new LoginException("User already Logged In with this username");	
+		}
+		
+		if(existingOperator.getPassword().equals(login.getPassword())) {
+			
+			String key= RandomString.make(6);
+			
+			CurrentOperatorSession currentOperatorSession = new CurrentOperatorSession(existingOperator.getOperatorId(),key,LocalDateTime.now());
+			
+			currentOperatorSessionRepository.save(currentOperatorSession);
+
+			return currentOperatorSession;
+		}
+		else
+			throw new LoginException("Please Enter a valid password");
 	}
 	
 	

@@ -2,14 +2,16 @@ package com.ocsc.Service;
 
 import java.util.List;
 
+import com.ocsc.Entity.CurrentOperatorSession;
 import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.Login;
+import com.ocsc.Exception.LoginException;
 import com.ocsc.Exception.OperatorException;
 
 public interface OperatorService {
 	
-	public String loginOperator(Login login) throws OperatorException;
+	public CurrentOperatorSession loginOperator(Login login) throws OperatorException, LoginException;
 
 	public Issue addCustomerIssue(Issue issue) throws OperatorException;
 	

@@ -2,17 +2,19 @@ package com.ocsc.Service;
 
 import java.util.List;
 
+import com.ocsc.Entity.CurrentCustomerSession;
 import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.IssueStatus;
 import com.ocsc.Entity.Login;
 import com.ocsc.Exception.CustomerException;
+import com.ocsc.Exception.LoginException;
 
 public interface CustomerService {
 
 	public Customer registerCustomer(Customer customer) throws CustomerException;
 	
-	public String loginCustomer(Login login) throws CustomerException;
+	public CurrentCustomerSession loginCustomer(Login login) throws CustomerException,LoginException;
 
 	public Issue viewIssuesById(Integer issueId) throws CustomerException;
 

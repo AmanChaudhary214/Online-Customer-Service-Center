@@ -35,9 +35,9 @@ public class Customer {
 	@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",message = "Input a valid email address")
 	private String email;
 	
-	private String password;
+	private String username;
 	
-	private String role;
+	private String password;
 
 	@NotNull(message = "Mobile number field should not be empty")
 	@Pattern(regexp = "[6789]{1}[0-9]{9}",message = "Input a valid mobile number")

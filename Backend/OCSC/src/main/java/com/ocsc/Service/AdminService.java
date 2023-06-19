@@ -2,11 +2,16 @@ package com.ocsc.Service;
 
 import java.util.List;
 
+import com.ocsc.Entity.CurrentAdminSession;
 import com.ocsc.Entity.Department;
+import com.ocsc.Entity.Login;
 import com.ocsc.Entity.Operator;
 import com.ocsc.Exception.AdminException;
+import com.ocsc.Exception.LoginException;
 
 public interface AdminService {
+	
+	public CurrentAdminSession loginAdmin(Login login) throws AdminException, LoginException;
 
 	public String addDepartment(Department department) throws AdminException;
 	

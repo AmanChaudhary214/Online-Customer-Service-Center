@@ -1,19 +1,24 @@
 package com.ocsc.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ocsc.Entity.CurrentCustomerSession;
 import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.IssueStatus;
 import com.ocsc.Entity.Login;
-import com.ocsc.Exception.AdminException;
 import com.ocsc.Exception.CustomerException;
+import com.ocsc.Exception.LoginException;
+import com.ocsc.Repository.CurrentCustomerSessionRepository;
 import com.ocsc.Repository.CustomerRepository;
 import com.ocsc.Repository.IssueRepository;
+
+import net.bytebuddy.utility.RandomString;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -23,6 +28,9 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	private IssueRepository issueRepository;
+	
+	@Autowired
+	private CurrentCustomerSessionRepository currentCustomerSessionRepository;
 
 
 	
@@ -33,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new CustomerException("Customer can't be null");
 		}
 		
-		Optional<Customer> existingCustomer = customerRepository.findById(customer.getCustomerId());
+		Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
 		
 		if(existingCustomer.isPresent()) 
 			throw new CustomerException("Customer Already Registered with customerId");
@@ -101,14 +109,6 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return customer.get().getIssueList();
 	}
-	
-	
-	
-	@Override
-	public String loginCustomer(Login login) throws CustomerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 		
 	
 
@@ -133,6 +133,57 @@ public class CustomerServiceImpl implements CustomerService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	
+	
+	@Override
+	public CurrentCustomerSession loginCustomer(Login login)throws CustomerException, LoginException{
+		
+		Customer existingCustomer = customerRepository.findByUserName(login.getUsername());
+		
+		if(existingCustomer == null) {
+			throw new LoginException("Please Enter a valid username number");
+		}	
+		
+		Optional<CurrentCustomerSession> validCustomerSessionOpt = currentCustomerSessionRepository.findById(existingCustomer.getCustomerId());
+		
+		if(validCustomerSessionOpt.isPresent()) {
+			throw new LoginException("User already Logged In with this username");
+		}
+		
+		if(existingCustomer.getPassword().equals(login.getPassword())) {
+			
+			String key= RandomString.make(6);
+			
+			CurrentCustomerSession currentCustomerSession = new CurrentCustomerSession(existingCustomer.getCustomerId(),key,LocalDateTime.now());
+			
+			currentCustomerSessionRepository.save(currentCustomerSession);
+
+			return currentCustomerSession;
+		}
+		else
+			throw new LoginException("Please Enter a valid password");
+	}
+	
+	
+//	@Override
+//	public String logOutFromAccount(String token)throws LoginException {
+//		
+//		CurrentUserSession validCustomerSession = currentUserSessionRepository.findByToken(token);
+//		
+//		
+//		if(validCustomerSession == null) {
+//			throw new LoginException("User Not Logged In with this number");
+//			
+//		}
+//		
+//		
+//		currentUserSessionRepository.delete(validCustomerSession);
+//		
+//		
+//		return "Logged Out !";
+//		
+//		
+//	}
+
+
 }

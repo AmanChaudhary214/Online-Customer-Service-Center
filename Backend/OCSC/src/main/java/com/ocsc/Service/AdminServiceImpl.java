@@ -1,17 +1,26 @@
 package com.ocsc.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ocsc.Entity.Admin;
+import com.ocsc.Entity.CurrentAdminSession;
+import com.ocsc.Entity.CurrentCustomerSession;
 import com.ocsc.Entity.Department;
+import com.ocsc.Entity.Login;
 import com.ocsc.Entity.Operator;
 import com.ocsc.Exception.AdminException;
-import com.ocsc.Exception.OperatorException;
+import com.ocsc.Exception.LoginException;
+import com.ocsc.Repository.AdminRepository;
+import com.ocsc.Repository.CurrentAdminSessionRepository;
 import com.ocsc.Repository.DepartmentRepository;
 import com.ocsc.Repository.OperatorRepository;
+
+import net.bytebuddy.utility.RandomString;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -22,6 +31,12 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	private OperatorRepository operatorRepository;
+	
+	@Autowired
+	private CurrentAdminSessionRepository currentAdminSessionRepository;
+	
+	@Autowired
+	private AdminRepository adminRepository;
 	
 	
 	
@@ -107,7 +122,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new AdminException("Operator can't be null");
 		}
 
-		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorld());
+		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorId());
 		
 		if(existingOperator.isPresent()) 
 			throw new AdminException("Operator Already Registered with given operatorId");
@@ -145,7 +160,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new AdminException("Operator can't be null");
 		}
 
-		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorld());
+		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorId());
 		
 		if(existingOperator == null) 
 			throw new AdminException("Operator doesn't exist with with given operatorId");
@@ -189,6 +204,37 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		return operators;
+	}
+
+
+
+	@Override
+	public CurrentAdminSession loginAdmin(Login login) throws AdminException, LoginException {
+
+		Admin existingAdmin = adminRepository.findByUserName(login.getUsername());
+		
+		if(existingAdmin == null) {
+			throw new LoginException("Please Enter a valid username number");
+		}	
+		
+		Optional<CurrentAdminSession> validAdminSessionOpt = currentAdminSessionRepository.findById(existingAdmin.getAdminId());
+		
+		if(validAdminSessionOpt.isPresent()) {
+			throw new LoginException("User already Logged In with this username");	
+		}
+		
+		if(existingAdmin.getPassword().equals(login.getPassword())) {
+			
+			String key= RandomString.make(6);
+			
+			CurrentAdminSession currentAdminSession = new CurrentAdminSession(existingAdmin.getAdminId(),key,LocalDateTime.now());
+			
+			currentAdminSessionRepository.save(currentAdminSession);
+
+			return currentAdminSession;
+		}
+		else
+			throw new LoginException("Please Enter a valid password");
 	}
 	
 
