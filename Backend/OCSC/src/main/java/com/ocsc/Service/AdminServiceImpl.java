@@ -211,7 +211,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public CurrentAdminSession loginAdmin(Login login) throws AdminException, LoginException {
 
-		Admin existingAdmin = adminRepository.findByUserName(login.getUsername());
+		Admin existingAdmin = adminRepository.findByUsername(login.getUsername());
 		
 		if(existingAdmin == null) {
 			throw new LoginException("Please Enter a valid username number");

@@ -44,7 +44,7 @@ public class OperatorServiceImpl implements OperatorService{
 	@Override
 	public CurrentOperatorSession loginOperator(Login login) throws OperatorException, LoginException{
 
-		Operator existingOperator = operatorRepository.findByUserName(login.getUsername());
+		Operator existingOperator = operatorRepository.findByUsername(login.getUsername());
 		
 		if(existingOperator == null) {
 			throw new LoginException("Please Enter a valid username number");

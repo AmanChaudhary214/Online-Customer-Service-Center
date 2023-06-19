@@ -28,7 +28,7 @@ public class Customer {
 	private Integer customerId;
 	
 	@NotNull(message = "Name field should not be empty")
-	@Column(name =  "fName")
+	@Column(name =  "name")
 	private String name;
 	
 	@NotNull(message="Email is mandatory")

@@ -32,12 +32,14 @@ public class Operator {
 	private Integer operatorId;
 
 	@NotNull(message = "Name field should not be empty")
-	@Column(name =  "fName")
+	@Column(name =  "name")
 	private String name;
 	
 	@NotNull(message="Email is mandatory")
 	@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",message = "Input a valid email address")
 	private String email;
+	
+	private String username;
 	
 	private String password;
 	

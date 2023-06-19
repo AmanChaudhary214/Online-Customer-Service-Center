@@ -7,6 +7,6 @@ import com.ocsc.Entity.Customer;
 
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
 
-	public Admin findByUserName(String userName);
+	public Admin findByUsername(String userName);
 	
 }

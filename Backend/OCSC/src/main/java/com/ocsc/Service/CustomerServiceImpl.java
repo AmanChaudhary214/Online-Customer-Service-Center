@@ -56,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public CurrentCustomerSession loginCustomer(Login login)throws CustomerException, LoginException{
 		
-		Customer existingCustomer = customerRepository.findByUserName(login.getUsername());
+		Customer existingCustomer = customerRepository.findByUsername(login.getUsername());
 		
 		if(existingCustomer == null) {
 			throw new LoginException("Please Enter a valid username number");

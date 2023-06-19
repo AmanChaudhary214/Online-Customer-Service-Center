@@ -22,7 +22,7 @@ public class Admin {
 	
 	@NotBlank(message = "{blank.invalid}")
 	@NotEmpty(message = "{empty.invalid}")
-	private String userName;
+	private String username;
 	
 	@NotBlank(message = "{blank.invalid}")
 	@NotEmpty(message = "{empty.invalid}")
