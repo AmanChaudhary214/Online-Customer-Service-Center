@@ -85,5 +85,5 @@ Request body:
 
 Here is the ER Diagram for our database:
 
-![ER Diagram](https://user-images.githubusercontent.com/101116044/229040119-f9c087f2-0668-4e7c-969f-f1c6b51d0be1.png)
+![ER Diagram](https://github.com/AmanChaudhary214/decisive-iron-5903/blob/main/er.png)
 
