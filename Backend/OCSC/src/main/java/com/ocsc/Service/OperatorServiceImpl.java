@@ -27,7 +27,6 @@ import net.bytebuddy.utility.RandomString;
 @Service
 public class OperatorServiceImpl implements OperatorService{
 	
-	
 	@Autowired
 	private IssueRepository issueRepository;
 	

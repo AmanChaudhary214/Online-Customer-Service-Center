@@ -51,6 +51,37 @@ public class CustomerServiceImpl implements CustomerService {
 		return customer;
 	}
 	
+	
+	
+	@Override
+	public CurrentCustomerSession loginCustomer(Login login)throws CustomerException, LoginException{
+		
+		Customer existingCustomer = customerRepository.findByUserName(login.getUsername());
+		
+		if(existingCustomer == null) {
+			throw new LoginException("Please Enter a valid username number");
+		}	
+		
+		Optional<CurrentCustomerSession> validCustomerSessionOpt = currentCustomerSessionRepository.findById(existingCustomer.getCustomerId());
+		
+		if(validCustomerSessionOpt.isPresent()) {
+			throw new LoginException("User already Logged In with this username");
+		}
+		
+		if(existingCustomer.getPassword().equals(login.getPassword())) {
+			
+			String key= RandomString.make(6);
+			
+			CurrentCustomerSession currentCustomerSession = new CurrentCustomerSession(existingCustomer.getCustomerId(),key,LocalDateTime.now());
+			
+			currentCustomerSessionRepository.save(currentCustomerSession);
+
+			return currentCustomerSession;
+		}
+		else
+			throw new LoginException("Please Enter a valid password");
+	}
+	
 
 	
 	@Override
@@ -134,35 +165,6 @@ public class CustomerServiceImpl implements CustomerService {
 		return null;
 	}
 	
-	
-	@Override
-	public CurrentCustomerSession loginCustomer(Login login)throws CustomerException, LoginException{
-		
-		Customer existingCustomer = customerRepository.findByUserName(login.getUsername());
-		
-		if(existingCustomer == null) {
-			throw new LoginException("Please Enter a valid username number");
-		}	
-		
-		Optional<CurrentCustomerSession> validCustomerSessionOpt = currentCustomerSessionRepository.findById(existingCustomer.getCustomerId());
-		
-		if(validCustomerSessionOpt.isPresent()) {
-			throw new LoginException("User already Logged In with this username");
-		}
-		
-		if(existingCustomer.getPassword().equals(login.getPassword())) {
-			
-			String key= RandomString.make(6);
-			
-			CurrentCustomerSession currentCustomerSession = new CurrentCustomerSession(existingCustomer.getCustomerId(),key,LocalDateTime.now());
-			
-			currentCustomerSessionRepository.save(currentCustomerSession);
-
-			return currentCustomerSession;
-		}
-		else
-			throw new LoginException("Please Enter a valid password");
-	}
 	
 	
 //	@Override

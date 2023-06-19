@@ -5,76 +5,103 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.ocsc.Entity.CurrentCustomerSession;
 import com.ocsc.Entity.Customer;
 import com.ocsc.Entity.Issue;
 import com.ocsc.Entity.IssueStatus;
+import com.ocsc.Entity.Login;
+import com.ocsc.Exception.AdminException;
 import com.ocsc.Exception.CustomerException;
+import com.ocsc.Exception.LoginException;
 import com.ocsc.Service.CustomerService;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@GetMapping("/hello")
-	public String testHandler() {
-		return "Welcome to Spring Security";
+	@PostMapping("/addCustomer")
+	public ResponseEntity<Customer> saveCustomer(@Valid @RequestBody Customer customer) throws CustomerException {
+		
+		Customer savedCustomer= customerService.registerCustomer(customer);
+		
+		return new ResponseEntity<Customer>(savedCustomer,HttpStatus.CREATED);
 	}
+	
+	
 
-	@PostMapping("/customer/register")
-	public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer) throws CustomerException {
-		customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-		customer.setRole("ROLE_"+customer.getRole().toUpperCase());
-		Customer registeredCustomer = customerService.registerCustomer(customer);
-		return new ResponseEntity<>(registeredCustomer, HttpStatus.CREATED);
+	@PostMapping("/loginCustomer")
+	public ResponseEntity<CurrentCustomerSession> loginAdmin(@RequestBody Login login) throws LoginException, CustomerException {
+		
+		CurrentCustomerSession result = customerService.loginCustomer(login);
+			
+		return new ResponseEntity<CurrentCustomerSession>(result,HttpStatus.OK );
 	}
+	
+	
 
-	@PostMapping("/customer/login")
-	public ResponseEntity<String> loginCustomer(@RequestBody Customer customer) throws CustomerException {
-		String loginMessage = customerService.loginCustomer(new Login(customer.getEmail(), customer.getPassword()));
-		return new ResponseEntity<>(loginMessage, HttpStatus.OK);
-	}
-
-	@GetMapping("/customer/{customerId}/issues/{issueId}")
-	public ResponseEntity<Issue> viewIssuesById(@PathVariable Integer issueId) throws CustomerException {
+	@GetMapping("/viewIssuesById/{issueId}")
+	public ResponseEntity<Issue> viewIssuesByIdHandler(@PathVariable Integer issueId) throws CustomerException {
+		
 		Issue issue = customerService.viewIssuesById(issueId);
+		
 		return new ResponseEntity<>(issue, HttpStatus.OK);
 	}
+	
+	
 
-	@PutMapping("/customer/{customerId}/issues/{issueId}/reopen/{newStatus}")
-	public ResponseEntity<Issue> reOpenIssue(@PathVariable Integer issueId, @PathVariable IssueStatus newStatus) throws CustomerException {
+	@PutMapping("/reOpenIssue/{issueId}/{newStatus}")
+	public ResponseEntity<Issue> reOpenIssueHandler(@PathVariable Integer issueId, @PathVariable IssueStatus newStatus) throws CustomerException {
+		
 		Issue reopenedIssue = customerService.reOpenIssue(issueId, newStatus);
-		return new ResponseEntity<>(reopenedIssue, HttpStatus.OK);
+		
+		return new ResponseEntity<Issue>(reopenedIssue, HttpStatus.OK);
 	}
+	
+	
 
-	@GetMapping("/customer/{customerId}/issues")
-	public ResponseEntity<List<Issue>> viewAllIssues(@PathVariable Integer customerId) throws CustomerException {
+	@GetMapping("/allIssues/{customerId}")
+	public ResponseEntity<List<Issue>> viewAllIssuesHandler(@PathVariable Integer customerId) throws CustomerException {
+		
 		List<Issue> issues = customerService.viewAllIssues(customerId);
-		return new ResponseEntity<>(issues, HttpStatus.OK);
+		
+		return new ResponseEntity<List<Issue>>(issues, HttpStatus.OK);
 	}
+	
+	
 
-	@PutMapping("/customer/changePassword")
-	public ResponseEntity<String> changePassword(@RequestBody Customer customer) throws CustomerException {
-		String passwordMessage = customerService.changePassword(new Login(customer.getEmail(), customer.getPassword()));
-		return new ResponseEntity<>(passwordMessage, HttpStatus.OK);
-	}
-
-	@PutMapping("/customer/{customerId}/forgotPassword")
-	public ResponseEntity<String> forgotPassword(@PathVariable Integer customerId) throws CustomerException {
-		String passwordResetMessage = customerService.forgotPassword(customerId);
-		return new ResponseEntity<>(passwordResetMessage, HttpStatus.OK);
-	}
-
-	@PutMapping("/customer/{customerId}/emailPassword")
-	public ResponseEntity<String> emailPassword(@PathVariable Integer customerId) throws CustomerException {
-		String emailPasswordMessage = customerService.emailPassword(customerId);
-		return new ResponseEntity<>(emailPasswordMessage, HttpStatus.OK);
-	}
+//	@PutMapping("/customer/changePassword")
+//	public ResponseEntity<String> changePasswordHandler(@RequestBody Customer customer) throws CustomerException {
+//		String passwordMessage = customerService.changePassword(new Login(customer.getEmail(), customer.getPassword()));
+//		return new ResponseEntity<>(passwordMessage, HttpStatus.OK);
+//	}
+//
+//	
+//	
+//	@PutMapping("/customer/{customerId}/forgotPassword")
+//	public ResponseEntity<String> forgotPasswordHandler(@PathVariable Integer customerId) throws CustomerException {
+//		String passwordResetMessage = customerService.forgotPassword(customerId);
+//		return new ResponseEntity<>(passwordResetMessage, HttpStatus.OK);
+//	}
+//	
+//	
+//
+//	@PutMapping("/customer/{customerId}/emailPassword")
+//	public ResponseEntity<String> emailPasswordHandler(@PathVariable Integer customerId) throws CustomerException {
+//		String emailPasswordMessage = customerService.emailPassword(customerId);
+//		return new ResponseEntity<>(emailPasswordMessage, HttpStatus.OK);
+//	}
+	
 }

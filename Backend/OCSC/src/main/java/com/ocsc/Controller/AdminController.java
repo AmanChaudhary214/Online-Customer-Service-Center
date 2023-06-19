@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ocsc.Entity.Customer;
+import com.ocsc.Entity.CurrentAdminSession;
 import com.ocsc.Entity.Department;
-import com.ocsc.Entity.Issue;
+import com.ocsc.Entity.Login;
 import com.ocsc.Entity.Operator;
 import com.ocsc.Exception.AdminException;
-import com.ocsc.Exception.OperatorException;
+import com.ocsc.Exception.LoginException;
 import com.ocsc.Service.AdminService;
 import com.ocsc.Service.OperatorService;
 
@@ -25,70 +25,106 @@ import jakarta.validation.Valid;
 
 @RestController
 public class AdminController {
+	
 	@Autowired
 	private AdminService adminService;
 	
-	@Autowired
-	private OperatorService optService;
-	   
 	
 	
-	@PostMapping("/add-department")
+	@PostMapping("/adminLogin")
+	public ResponseEntity<CurrentAdminSession> logInAdmin(@RequestBody Login login) throws LoginException, AdminException {
+		
+		CurrentAdminSession result = adminService.loginAdmin(login);
+			
+		return new ResponseEntity<CurrentAdminSession>(result,HttpStatus.OK );
+	}
+
+	
+	
+	@PostMapping("/addDepartment")
 	public ResponseEntity<String> addDepartmentHandler(@RequestBody @Valid Department department) throws AdminException{
 		
 		String s = adminService.addDepartment(department);
 		
-		return ResponseEntity.ok(s);
-}
-	@DeleteMapping("/depart/delete/{deptId}/{key}")
-	private ResponseEntity<String> deleteDepartment(@PathVariable @Valid Integer departmentId) throws AdminException {
-		String c = adminService.removeDepartment(departmentId);
-		return ResponseEntity.ok(c);
-		
+		return new ResponseEntity<String>(s,HttpStatus.CREATED);
 	}
-	@PostMapping("/modify-department")
+	
+	
+	
+	@DeleteMapping("/deleteDepartment/{departmentId}")
+	private ResponseEntity<String> deleteDepartmentHandler(@PathVariable Integer departmentId) throws AdminException {
+		
+		String s = adminService.removeDepartment(departmentId);
+		
+		return new ResponseEntity<String>(s,HttpStatus.OK);
+	}
+	
+	
+	
+	@PostMapping("/modifyDepartment")
 	public ResponseEntity<Department> modifyDepartmentHandler(@RequestBody @Valid Department department)throws AdminException {
-		Department s = adminService.modifyDepartment(department);
-		return ResponseEntity.ok(s);
+		
+		Department dept = adminService.modifyDepartment(department);
+		
+		return new ResponseEntity<Department>(dept,HttpStatus.CREATED);
 	}
 	
 	
 	
 	@GetMapping("/department/{departmentId}")
-	public ResponseEntity<Department> getDepartmentByIdHandler(@PathVariable @Valid Integer departmentId)throws AdminException {
-		Department c = adminService.findDepartmentById(departmentId);
-		return ResponseEntity.ok(c);
+	public ResponseEntity<Department> getDepartmentByIdHandler(@PathVariable Integer departmentId)throws AdminException {
+		
+		Department dept = adminService.findDepartmentById(departmentId);
+		
+		return new ResponseEntity<Department>(dept,HttpStatus.OK);
 	}
 	
-	@PostMapping("/add-operator")
+	
+	
+	@PostMapping("/addOperator")
 	public ResponseEntity<String> addOperatorHandler(@RequestBody @Valid Operator operator) throws AdminException{
 		
 		String s = adminService.addOperator(operator);
 		
-		return ResponseEntity.ok(s);
-}
+		return new ResponseEntity<String>(s,HttpStatus.CREATED);
+	}
 	
 	
-	@DeleteMapping("/operator/delete/{optId}/{key}")
-	private ResponseEntity<String> deleteOperator(@PathVariable @Valid Integer operatorId) throws AdminException {
-		String c = adminService.removeDepartment(operatorId);
-		return ResponseEntity.ok(c);
+	
+	@DeleteMapping("/deleteOperator/{operatorId}")
+	private ResponseEntity<String> deleteOperatorHandler(@PathVariable Integer operatorId) throws AdminException {
 		
+		String s = adminService.removeOperator(operatorId);
+		
+		return new ResponseEntity<String>(s,HttpStatus.OK);
 	}
 	
-	@PostMapping("/modify-operator")
+	
+	
+	@PostMapping("/modifyOperator")
 	public ResponseEntity<Operator> modifyOperatorHandler(@RequestBody @Valid Operator operator)throws AdminException {
-		Operator s = adminService.modifyOperator(operator);
-		return ResponseEntity.ok(s);
-	}
-	@GetMapping("/operator/{operatorId}")
-	public ResponseEntity<Operator> getOperatorByIdHandler(@PathVariable @Valid Integer operatorId)throws AdminException {
-		Operator c = adminService.findOperatorById(operatorId);
-		return ResponseEntity.ok(c);
+		
+		Operator opt = adminService.modifyOperator(operator);
+		
+		return new ResponseEntity<Operator>(opt,HttpStatus.OK);
 	}
 	
-	@GetMapping("operator/all")
-	public ResponseEntity<List<Operator>> getAllOperator(@RequestBody@Valid Operator operator)throws AdminException{
-		    return new ResponseEntity<List<Operator>>(adminService.findAllOperators(), HttpStatus.OK);
+	
+	
+	@GetMapping("/operator/{operatorId}")
+	public ResponseEntity<Operator> getOperatorByIdHandler(@PathVariable Integer operatorId)throws AdminException {
+		
+		Operator opt = adminService.findOperatorById(operatorId);
+		
+		return new ResponseEntity<Operator>(opt,HttpStatus.OK);
 	}
+	
+	
+	
+	@GetMapping("allOperators")
+	public ResponseEntity<List<Operator>> getAllOperatorHandler()throws AdminException{
+		    
+		return new ResponseEntity<List<Operator>>(adminService.findAllOperators(), HttpStatus.OK);
+	}
+	
 }
