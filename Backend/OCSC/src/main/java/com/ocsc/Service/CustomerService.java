@@ -18,8 +18,8 @@ public interface CustomerService {
 
 	public Issue viewIssuesById(Integer issueId) throws CustomerException;
 
-	public Issue reOpenIssue(Integer issueId, IssueStatus newStatus) throws CustomerException;
-
+	public Issue reOpenIssue(Integer issueId) throws CustomerException;
+	
 	public List<Issue> viewAllIssues(Integer customerId) throws CustomerException;
 	
 	public String changePassword(Login login) throws CustomerException;

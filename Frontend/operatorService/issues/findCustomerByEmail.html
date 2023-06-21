@@ -181,35 +181,37 @@ document.addEventListener("DOMContentLoaded", function() {
             var customerDetails = document.getElementById("customerDetails");
             customerDetails.innerHTML = ""; // Clear existing data
 
-            // Iterate over the result array to create table rows for each customer
-            result.forEach(customer => {
+           
                 var row = document.createElement("tr");
-                var idCell = document.createElement("td");
-                var nameCell = document.createElement("td");
-                var emailCell = document.createElement("td");
-                var usernameCell = document.createElement("td");
-                var passwordCell = document.createElement("td");
-                var mobileCell = document.createElement("td");
-                var cityCell = document.createElement("td");
+				var idCell = document.createElement("td");
+				var nameCell = document.createElement("td");
+				var emailCell = document.createElement("td");
+				var usernameCell = document.createElement("td");
+				var passwordCell = document.createElement("td");
+				var mobileCell = document.createElement("td");
+				var cityCell = document.createElement("td");
+				
+				idCell.innerText = result.customerId || "N/A";
+				nameCell.innerText = result.name || "N/A";
+				emailCell.innerText = result.email || "N/A";
+				usernameCell.innerText = result.username || "N/A";
+				passwordCell.innerText = result.password || "N/A";
+				mobileCell.innerText = result.mobile || "N/A";
+				cityCell.innerText = result.city || "N/A";
+				
+				row.appendChild(idCell);
+				row.appendChild(nameCell);
+				row.appendChild(emailCell);
+				row.appendChild(usernameCell);
+				row.appendChild(passwordCell);
+				row.appendChild(mobileCell);
+				row.appendChild(cityCell);
+				
+				customerDetails.appendChild(row);
+              
 
-                idCell.innerText = customer.customerId || "N/A";
-                nameCell.innerText = customer.name || "N/A";
-                emailCell.innerText = customer.email || "N/A";
-                usernameCell.innerText = customer.username || "N/A";
-                passwordCell.innerText = customer.password || "N/A";
-                mobileCell.innerText = customer.mobile || "N/A";
-                cityCell.innerText = customer.city || "N/A";
-
-                row.appendChild(idCell);
-                row.appendChild(nameCell);
-                row.appendChild(emailCell);
-                row.appendChild(usernameCell);
-                row.appendChild(passwordCell);
-                row.appendChild(mobileCell);
-                row.appendChild(cityCell);
-
-                customerDetails.appendChild(row);
-            });
+               
+            
         })
 
             .catch(error => console.log('error', error));

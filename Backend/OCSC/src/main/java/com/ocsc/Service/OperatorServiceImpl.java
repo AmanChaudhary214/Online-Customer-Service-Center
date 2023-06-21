@@ -79,14 +79,9 @@ public class OperatorServiceImpl implements OperatorService{
 			throw new OperatorException("Issue can't be null");
 		}
 
-		Optional<Issue> existingIssue = issueRepository.findById(issue.getIssueId());
+		return issueRepository.save(issue);
 		
-		if(existingIssue.isPresent()) 
-			throw new OperatorException("Issue already exists with given issueId");
 		
-		issueRepository.save(issue);
-		
-		return issue;
 	}
 	
 	
@@ -100,36 +95,35 @@ public class OperatorServiceImpl implements OperatorService{
 		
 		Optional<Issue> existingIssue = issueRepository.findById(issueId);
 		
-		if(existingIssue.isEmpty()) 
+		if(!existingIssue.isPresent()) 
 			throw new OperatorException("Issue doesn't exist with given issueId");
 		
-		existingIssue.get().setIssueType(issue.getIssueType());
-		existingIssue.get().setDescription(issue.getDescription());
-		existingIssue.get().setStatus(issue.getStatus());
 		
-		return existingIssue.get();
+		Issue issueToUpdate = existingIssue.get();
+	    issueToUpdate.setIssueType(issue.getIssueType());
+	    issueToUpdate.setDescription(issue.getDescription());
+	    issueToUpdate.setStatus(issue.getStatus());
+
+	    Issue updatedIssue = issueRepository.save(issueToUpdate);
+		
+		return updatedIssue;
 	}	
 	
 
 
 	@Override
-	public String closeCustomerIssue(Issue issue, Integer issueId) throws OperatorException {
-		
-		if (issue == null) {
-			throw new OperatorException("Issue can't be null");
-		}
+	public void closeCustomerIssue(Issue issue, Integer issueId) throws OperatorException {
+        
+		Issue existingIssue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new OperatorException("Issue not found with id: " + issueId));
 
-		Optional<Issue> existingIssue = issueRepository.findById(issueId);
-		
-		if(existingIssue.isEmpty())
-			throw new OperatorException("Issue doesn't exist with given issueId");
-		
-		if (existingIssue.get().getStatus() == IssueStatus.PENDING) {
-			existingIssue.get().setStatus(IssueStatus.RESOLVED);
-		}
-		
-		return "Issue closed successfully";
-	}
+        if (existingIssue.getStatus() == IssueStatus.PENDING) {
+            existingIssue.setStatus(IssueStatus.RESOLVED);
+            issueRepository.save(existingIssue);
+        } else {
+            throw new OperatorException("Issue is not in PENDING status");
+        }
+    }
 	
 	
 
@@ -153,24 +147,13 @@ public class OperatorServiceImpl implements OperatorService{
 	@Override
 	public List<Customer> findCustomerByName(String name) throws OperatorException {
 		
-		if (name == null) {
-			throw new OperatorException("Name can't be null");
-		}
+		if (name == null || name.isEmpty()) {
+            throw new OperatorException("Name cannot be empty");
+        }
 
-		List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findByName(name);
 
-		if(customers.isEmpty()) 
-			throw new OperatorException("No customer exists with given customerId");
-		
-		List<Customer> list = new ArrayList<>();
-		
-		for (int i=0; i<customers.size(); i++) {
-			if (customers.get(i).getName() == name) {
-				list.add(customers.get(i));
-			}
-		}
-		
-		return list;
+        return customers;
 	}
 	
 	
@@ -179,13 +162,13 @@ public class OperatorServiceImpl implements OperatorService{
 	public Customer findCustomerByEmail(String email) throws OperatorException {
 		
 		if (email == null) {
-			throw new OperatorException("Email can't be null");
+			throw new OperatorException("CustomerId can't be null");
 		}
 
 		Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
 		
 		if(existingCustomer.isEmpty()) 
-			throw new OperatorException("No customer exists with given customerId");
+			throw new OperatorException("No customer exists with given email");
 		
 		return existingCustomer.get();
 	}

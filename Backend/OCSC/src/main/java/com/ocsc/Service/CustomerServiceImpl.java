@@ -40,15 +40,8 @@ public class CustomerServiceImpl implements CustomerService {
 		if (customer == null) {
 			throw new CustomerException("Customer can't be null");
 		}
-		
-		Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
-		
-		if(existingCustomer.isPresent()) 
-			throw new CustomerException("Customer Already Registered with customerId");
-		
-		customerRepository.save(customer);
-		
-		return customer;
+
+		return customerRepository.save(customer);
 	}
 	
 	
@@ -102,22 +95,18 @@ public class CustomerServiceImpl implements CustomerService {
 
 	
 	@Override
-	public Issue reOpenIssue(Integer issueId, IssueStatus newStatus) throws CustomerException {
+	public Issue reOpenIssue(Integer issueId) throws CustomerException {
 		
-		if (issueId == null) {
-			throw new CustomerException("IssueId can't be null");
-		}
+	    Issue issue = issueRepository.findById(issueId)
+	            .orElseThrow(() -> new CustomerException("Issue not found with ID: " + issueId));
 
-		Optional<Issue> issue = issueRepository.findById(issueId);
-		
-		if(issue.isEmpty())
-			throw new CustomerException("Issue doesn't exist with given issueId for the given Customer");
-		
-		if (issue.get().getStatus() == IssueStatus.PENDING) {
-			issue.get().setStatus(newStatus);;
-		}
-		
-		return issue.get();
+	    if (issue.getStatus() == IssueStatus.RESOLVED) {
+	        issue.setStatus(IssueStatus.PENDING);
+	       
+	        return issueRepository.save(issue);
+	    } else {
+	        throw new CustomerException("Cannot reopen issue. The issue is not in the RESOLVED state.");
+	    }
 	}
 	
 
@@ -131,9 +120,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 		Optional<Customer> customer = customerRepository.findById(customerId);
 		
-		if(customer == null) 
-			throw new CustomerException("Customer is not Registered with customerId");
-		
+		if (!customer.isPresent()) {
+		    throw new CustomerException("Customer is not Registered with customerId");
+		}
+
 		if(customer.get().getIssueList().isEmpty()) {
     		throw new CustomerException("Empty issue list") ;
     	}

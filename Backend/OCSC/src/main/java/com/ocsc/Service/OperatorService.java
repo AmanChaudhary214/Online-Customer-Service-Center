@@ -21,7 +21,7 @@ public interface OperatorService {
 	
 	public String sendModificationEmailToCustomer(Integer issueId, Integer customerId) throws OperatorException;
 	
-	public String closeCustomerIssue(Issue issue, Integer issueId) throws OperatorException;
+	public void closeCustomerIssue(Issue issue, Integer issueId) throws OperatorException;
 	
 	public Customer findCustomerById(Integer customerId) throws OperatorException;
 	
