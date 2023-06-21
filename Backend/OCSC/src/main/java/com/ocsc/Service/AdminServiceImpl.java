@@ -46,13 +46,9 @@ public class AdminServiceImpl implements AdminService {
 		if (department == null) {
 			throw new AdminException("Department can't be null");
 		}
-
-		Optional<Department> existingDepartment = departmentRepository.findById(department.getDepartmentId());
-		
-		if(existingDepartment.isPresent()) 
-			throw new AdminException("Department Already Registered with given departmentId");
-		
+	
 		departmentRepository.save(department);
+
 		
 		return "Department added successfully";
 		
@@ -81,19 +77,22 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Department modifyDepartment(Department department, Integer departmentId) throws AdminException {
-		
-		if (department == null) {
-			throw new AdminException("Department can't be null");
-		}
+	    if (department == null) {
+	        throw new AdminException("Department can't be null");
+	    }
 
-		Optional<Department> existingDepartment = departmentRepository.findById(departmentId);
-		
-		if(existingDepartment == null) 
-			throw new AdminException("Department doesn't exist with given departmentId");
-		
-		existingDepartment.get().setDepartmentName(department.getDepartmentName());
-		
-		return existingDepartment.get();
+	    Optional<Department> existingDepartment = departmentRepository.findById(departmentId);
+
+	    if (!existingDepartment.isPresent()) {
+	        throw new AdminException("Department doesn't exist with given departmentId");
+	    }
+
+	    Department departmentToUpdate = existingDepartment.get();
+	    departmentToUpdate.setDepartmentName(department.getDepartmentName());
+
+	    Department updatedDepartment = departmentRepository.save(departmentToUpdate);
+
+	    return updatedDepartment;
 	}
 	
 	
@@ -122,11 +121,6 @@ public class AdminServiceImpl implements AdminService {
 			throw new AdminException("Operator can't be null");
 		}
 
-		Optional<Operator> existingOperator = operatorRepository.findById(operator.getOperatorId());
-		
-		if(existingOperator.isPresent()) 
-			throw new AdminException("Operator Already Registered with given operatorId");
-		
 		operatorRepository.save(operator);
 		
 		return "Operator added successfully";
@@ -154,25 +148,22 @@ public class AdminServiceImpl implements AdminService {
 	
 
 	@Override
-	public Operator modifyOperator(Operator operator, Integer operatorId) throws AdminException {
+    public Operator modifyOperator(Operator operator, Integer operatorId) throws AdminException {
 		
-		if (operator == null) {
-			throw new AdminException("Operator can't be null");
-		}
+        Operator existingOperator = operatorRepository.findById(operatorId)
+                .orElseThrow(() -> new AdminException("Operator not found"));
 
-		Optional<Operator> existingOperator = operatorRepository.findById(operatorId);
-		
-		if(existingOperator == null) 
-			throw new AdminException("Operator doesn't exist with with given operatorId");
-		
-		existingOperator.get().setName(operator.getName());
-		existingOperator.get().setEmail(operator.getEmail());
-		existingOperator.get().setPassword(operator.getPassword());
-		existingOperator.get().setMobile(operator.getMobile());
-		existingOperator.get().setCity(operator.getCity());
-		
-		return existingOperator.get();
-		
+        existingOperator.setName(operator.getName());
+        existingOperator.setEmail(operator.getEmail());
+        existingOperator.setUsername(operator.getUsername());
+        existingOperator.setPassword(operator.getPassword());
+        existingOperator.setMobile(operator.getMobile());
+        existingOperator.setCity(operator.getCity());
+        existingOperator.setCall(operator.getCall());
+        existingOperator.setDepartment(operator.getDepartment());
+
+        
+        return operatorRepository.save(existingOperator);
 	}
 
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import com.ocsc.Service.OperatorService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/operator")
 public class OperatorController {
 	
@@ -62,17 +64,19 @@ public class OperatorController {
 	
 	
 	
-	@PutMapping("/closeIssue/{issueId}")
-	public ResponseEntity<String> closeIssueHandler(@RequestBody @Valid Issue issue, @PathVariable Integer issueId) throws OperatorException{
-		
-		String s = operatorService.closeCustomerIssue(issue, issueId);
-		
-		return new ResponseEntity<String>(s,HttpStatus.OK);
-	}
+	@PutMapping("/close/{issueId}")
+    public ResponseEntity<String> closeCustomerIssue(@RequestBody Issue issue, @PathVariable Integer issueId) throws OperatorException {
+        
+            operatorService.closeCustomerIssue(issue, issueId);
+            
+            return ResponseEntity.status(HttpStatus.OK).body("Issue closed successfully");
+       
+    }
+
 	
 	
 	
-	@GetMapping("/customer/{customerId}")
+	@GetMapping("/customerid/{customerId}")
 	public ResponseEntity<Customer> getCustomerByIdHandler(@PathVariable @Valid Integer customerId)throws OperatorException {
 		
 		Customer c = operatorService.findCustomerById(customerId);
@@ -82,7 +86,7 @@ public class OperatorController {
 	
 	
 	
-	@GetMapping("/customer/{name}")
+	@GetMapping("/customername/{name}")
 	public ResponseEntity<List<Customer>> getCustomerByFirstNameHandler(@PathVariable @Valid String name) throws OperatorException{
 		
 		List<Customer> cList =  operatorService.findCustomerByName(name);
@@ -92,7 +96,7 @@ public class OperatorController {
 	
 	
 	
-	@GetMapping("/customer/{email}")
+	@GetMapping("/customeremail/{email}")
 	public ResponseEntity<Customer> getCustomerByEmailHandler(@PathVariable @Valid String email)throws OperatorException {
 		
 		Customer c =  operatorService.findCustomerByEmail(email);
