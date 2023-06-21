@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Operator by ID</title>
+    <style>
+        body {
+            background-color: rgb(240, 242, 244);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            color: #ffffff;
+            background-color: rgb(109, 105, 220);
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            cursor: pointer;
+            background-color: rgb(98, 159, 228);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        table th {
+            background-color: rgb(109, 105, 220);
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Find Operator by ID</h1>
+        <form id="findOperatorForm">
+            <label for="operatorId">Operator ID</label>
+            <input type="text" id="operatorId" placeholder="Enter Operator ID">
+            <button type="submit" class="button" id="findButton">Find</button>
+        </form>
+
+        
+    </div>
+
+    <table id="operatorTable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Mobile</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody id="operatorDetails">
+            <!-- Append the operator details here using JavaScript -->
+        </tbody>
+    </table>
+
+
+    <script>
+        let findButton = document.getElementById('findButton');
+        let operatorIdInput = document.getElementById('operatorId');
+
+        document.querySelector("form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch(`http://localhost:8080/operator/${operatorIdInput.value}`, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Request failed with status code " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    console.log(result); // Log the response to inspect the data
+
+                    // Append the operator details to the table
+                    var operatorDetails = document.getElementById("operatorDetails");
+                    operatorDetails.innerHTML = ""; // Clear existing data
+
+                    var row = document.createElement("tr");
+                    var idCell = document.createElement("td");
+                    var nameCell = document.createElement("td");
+                    var emailCell = document.createElement("td");
+                    var usernameCell = document.createElement("td");
+                    var passwordCell = document.createElement("td");
+                    var mobileCell = document.createElement("td");
+                    var cityCell = document.createElement("td");
+
+                    idCell.innerText = result.operatorId || "N/A";
+                    nameCell.innerText = result.name || "N/A";
+                    emailCell.innerText = result.email || "N/A";
+                    usernameCell.innerText = result.username || "N/A";
+                    passwordCell.innerText = result.password || "N/A";
+                    mobileCell.innerText = result.mobile || "N/A";
+                    cityCell.innerText = result.city || "N/A";
+
+                    row.appendChild(idCell);
+                    row.appendChild(nameCell);
+                    row.appendChild(emailCell);
+                    row.appendChild(usernameCell);
+                    row.appendChild(passwordCell);
+                    row.appendChild(mobileCell);
+                    row.appendChild(cityCell);
+
+                    operatorDetails.appendChild(row);
+                })
+                .catch(error => console.log('error', error));
+        });
+    </script>
+
+</body>
+
+</html>
